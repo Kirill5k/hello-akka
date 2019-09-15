@@ -21,6 +21,7 @@ object Actors11Lifecycle extends App {
 
   object ChildActor {
     case object Fail
+    case object Check
   }
   class ChildActor extends Actor with ActorLogging {
     import ChildActor._
@@ -28,6 +29,8 @@ object Actors11Lifecycle extends App {
       case Fail =>
         log.warning("child actor has failed")
         throw new RuntimeException("failure")
+      case Check =>
+        log.info("alive and kicking")
     }
 
     override def preStart(): Unit = log.info("child about to start")
@@ -43,6 +46,7 @@ object Actors11Lifecycle extends App {
 
   object ParentActor {
     case object FailChild
+    case object CheckChild
   }
   class ParentActor extends Actor with ActorLogging {
     import ChildActor._
@@ -51,6 +55,7 @@ object Actors11Lifecycle extends App {
 
     def withChild(child: ActorRef): Receive = {
       case FailChild => child ! Fail
+      case CheckChild => child ! Check
     }
   }
 
