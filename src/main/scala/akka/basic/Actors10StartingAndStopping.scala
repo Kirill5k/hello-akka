@@ -1,6 +1,7 @@
 package akka.basic
 
-import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Props, Terminated}
+import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, PoisonPill, Props, Terminated}
+import akka.basic.Actors10StartingAndStopping.Parent.{StartChild, StopChild}
 
 object Actors10StartingAndStopping extends App {
 

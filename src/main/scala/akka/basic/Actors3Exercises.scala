@@ -1,6 +1,7 @@
 package akka.basic
 
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import akka.basic.Actors3Exercises.AccountHolder.LiveTheLife
 
 object Actors3Exercises extends App {
 
@@ -50,6 +51,8 @@ object Actors3Exercises extends App {
   }
 
   class AccountHolder extends Actor {
+    import AccountHolder._
+    import BankAccount._
     override def receive: Receive = {
       case LiveTheLife(account) =>
         account ! Deposit(100)

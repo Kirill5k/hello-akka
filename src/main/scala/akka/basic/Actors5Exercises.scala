@@ -1,6 +1,8 @@
 package akka.basic
 
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import akka.basic.Actors5Exercises.Citizen.Vote
+import akka.basic.Actors5Exercises.VoteAggregator.{AggregateVotes, VoteStatusRequest, VoteStatusResponse}
 
 object Actors5Exercises extends App {
   object CounterActor {

@@ -1,6 +1,7 @@
 package akka.basic
 
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import akka.basic.Actors7ChildActorsExercises.WordCounterMaster.{Initialize, WordCountResponse, WordCountTask}
 
 object Actors7ChildActorsExercises extends App {
   val system = ActorSystem("system")
