@@ -1,7 +1,7 @@
 package akka.infrastructure
 
 import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Props, Terminated}
-import akka.routing.{ActorRefRoutee, FromConfig, RoundRobinGroup, RoundRobinPool, RoundRobinRoutingLogic, Router}
+import akka.routing.{ActorRefRoutee, Broadcast, FromConfig, RoundRobinGroup, RoundRobinPool, RoundRobinRoutingLogic, Router}
 import com.typesafe.config.ConfigFactory
 
 object Infra2Routers extends App {
@@ -62,4 +62,6 @@ object Infra2Routers extends App {
   for (i <- 1 to 10) {
     groupMaster2 ! s"hello from world $i"
   }
+
+  groupMaster2 ! Broadcast("hello, everyone")
 }
