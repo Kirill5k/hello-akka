@@ -1,11 +1,8 @@
-package akka
+package akka.patterns
 
-import akka.AskSpec.AuthManager.{AUTH_FAILURE_INCORRECT_PASSWORD, AUTH_FAILURE_NOT_FOUND, AuthFailure, AuthSuccess}
-import akka.AskSpec.KVActor.{Read, Write}
 import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Props}
+import akka.pattern.{ask, pipe}
 import akka.testkit.{ImplicitSender, TestKit}
-import akka.pattern.ask
-import akka.pattern.pipe
 import akka.util.Timeout
 import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
 
@@ -13,9 +10,11 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
+import AskSpec._
+import AuthManager._
+import KVActor._
+
 class AskSpec extends TestKit(ActorSystem("AskSpec")) with ImplicitSender with WordSpecLike with BeforeAndAfterAll {
-  import AskSpec._
-  import AuthManager._
 
   override def afterAll(): Unit = {
     TestKit.shutdownActorSystem(system)
@@ -100,7 +99,6 @@ object AskSpec {
     case object AuthSuccess
   }
   class AuthManager extends Actor with ActorLogging {
-    import AuthManager._
     implicit val timeout: Timeout = Timeout(1 second)
     implicit val executionContext: ExecutionContext = context.dispatcher
 
