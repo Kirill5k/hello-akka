@@ -11,7 +11,7 @@ class WordCountActor(private val number: Int) extends Actor {
       println(s"""[word-counter-$number] received a message "$text"""")
       context.become(withWordCount(count + text.split(" ").length))
     case message =>
-      println(s"""[word-counter-$number] I cannot understand "$message"""")
+      println(s"""[word-counter-$number] unknown message "$message"""")
   }
 }
 
