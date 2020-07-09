@@ -8,14 +8,14 @@ object Actors1Intro extends App {
   println(actorSystem.name)
 
   class WordCountActor(private val number: Int) extends Actor {
-    var totalWords = 0
+    private var totalWords = 0
 
     override def receive: PartialFunction[Any, Unit] = {
       case message: String => {
-        println(s"[word count $number] received a message $message")
+        println(s"""[word counter $number] received a message "$message"""")
         totalWords += message.split(" ").length
       }
-      case msg => println(s"[word counter $number] I cannot understand ${msg.toString}")
+      case msg => println(s"""[word counter $number] I cannot understand "${msg.toString}"""")
     }
   }
 
