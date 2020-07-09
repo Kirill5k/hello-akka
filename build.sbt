@@ -1,13 +1,11 @@
-name := "hello-akka"
+ThisBuild / name := "hello-akka"
+ThisBuild / version := "0.1"
+ThisBuild / scalaVersion := "2.13.3"
 
-version := "0.1"
-
-scalaVersion := "2.12.8"
-
-val akkaVersion = "2.5.25"
+lazy val akkaVersion = "2.5.25"
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
   "com.typesafe.akka" %% "akka-testkit" % akkaVersion,
-  "org.scalatest" %% "scalatest" % "3.0.8" % "test"
+  "org.scalatest" %% "scalatest" % "3.1.1" % "test"
 )

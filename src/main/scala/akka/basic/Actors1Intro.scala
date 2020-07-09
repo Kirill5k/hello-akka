@@ -12,7 +12,7 @@ object Actors1Intro extends App {
 
     override def receive: PartialFunction[Any, Unit] = {
       case message: String => {
-        println(s"[word counter $number] received a message $message")
+        println(s"[word count $number] received a message $message")
         totalWords += message.split(" ").length
       }
       case msg => println(s"[word counter $number] I cannot understand ${msg.toString}")
@@ -28,4 +28,5 @@ object Actors1Intro extends App {
 
   wordCountActor ! "passing a message to my actor"
   anotherWordCountActor ! "passing another message to my other actor"
+  wordCountActor ! 1
 }

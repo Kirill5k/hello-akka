@@ -9,6 +9,7 @@ import akka.pattern.{Backoff, BackoffSupervisor}
 
 import scala.io.Source
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 object Actors12BackoffSupervisor extends App {
   val system = ActorSystem("system")

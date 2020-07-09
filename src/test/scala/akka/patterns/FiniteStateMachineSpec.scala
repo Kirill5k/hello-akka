@@ -3,11 +3,13 @@ package akka.patterns
 import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Cancellable, FSM, Props}
 import akka.patterns.FiniteStateMachineSpec.CoolVendingMachine.{VendingData, VendingState}
 import akka.testkit.{ImplicitSender, TestKit}
-import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.wordspec.AnyWordSpecLike
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
-class FiniteStateMachineSpec extends TestKit(ActorSystem("FiniteStateMachineSpec")) with ImplicitSender with WordSpecLike with BeforeAndAfterAll {
+class FiniteStateMachineSpec extends TestKit(ActorSystem("FiniteStateMachineSpec")) with ImplicitSender with AnyWordSpecLike with BeforeAndAfterAll {
   import FiniteStateMachineSpec._
   import VendingMachine._
 

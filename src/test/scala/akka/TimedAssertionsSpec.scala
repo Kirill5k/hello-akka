@@ -4,12 +4,14 @@ import akka.TimedAssertionsSpec.WorkerActor
 import akka.TimedAssertionsSpec.WorkerActor.WorkResult
 import akka.actor.{Actor, ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit}
-import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.wordspec.AnyWordSpecLike
 
-import scala.util.Random
 import scala.concurrent.duration._
+import scala.language.postfixOps
+import scala.util.Random
 
-class TimedAssertionsSpec extends TestKit(ActorSystem("TimedAssertionsSpec")) with ImplicitSender with WordSpecLike with BeforeAndAfterAll {
+class TimedAssertionsSpec extends TestKit(ActorSystem("TimedAssertionsSpec")) with ImplicitSender with AnyWordSpecLike with BeforeAndAfterAll {
   override def afterAll(): Unit = {
     TestKit.shutdownActorSystem(system)
   }

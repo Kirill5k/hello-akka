@@ -1,15 +1,16 @@
 package akka
 
+import akka.BasicActorSpec._
 import akka.actor.{Actor, ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit}
-import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.wordspec.AnyWordSpecLike
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 import scala.util.Random
 
-import BasicActorSpec._
-
-class BasicActorSpec extends TestKit(ActorSystem("BasicSpec")) with ImplicitSender with WordSpecLike with BeforeAndAfterAll {
+class BasicActorSpec extends TestKit(ActorSystem("BasicSpec")) with ImplicitSender with AnyWordSpecLike with BeforeAndAfterAll {
   override def afterAll(): Unit = {
     TestKit.shutdownActorSystem(system)
   }

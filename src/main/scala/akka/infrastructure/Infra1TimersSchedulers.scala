@@ -3,6 +3,7 @@ package akka.infrastructure
 import akka.actor.{Actor, ActorLogging, ActorSystem, Cancellable, Props, Timers}
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 object Infra1TimersSchedulers extends App {
 
