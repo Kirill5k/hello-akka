@@ -4,40 +4,42 @@ import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 
 object Actors4ChangingBehaviour extends App {
 
-  object StatelessActor {
-    case object Accept
-    case object Reject
-  }
-
-  class StatelessActor extends Actor {
+  class ChildActor extends Actor {
     import ParentActor._
-    import StatelessActor._
+    import ChildActor._
 
     override def receive: Receive = happyReceive
 
     def happyReceive: Receive = {
       case Food(VEGETABLE) =>
-        println("[stateless actor] eating vegetable")
+        println("[child] was happy, but now eating vegetable")
         context.become(sadReceive, false)
       case Food(CHOCOLATE) =>
-        println("[stateless actor] eating choc")
+        println("[child] still happy, eating choc")
         context.unbecome()
-      case Ask(_) => sender ! Accept
+      case Ask(_) => sender ! RequestAccept
     }
+
     def sadReceive: Receive = {
       case Food(VEGETABLE) =>
-        println("[stateless actor] eating vegetable")
+        println("[child] still sad, eating vegetable")
         context.become(sadReceive, false)
       case Food(CHOCOLATE) =>
-        println("[stateless actor] eating choc")
+        println("[child] was sad, eating choc")
         context.unbecome()
-      case Ask(_) => sender ! Reject
+      case Ask(_) => sender ! RequestReject
     }
   }
 
+  object ChildActor {
+    case object RequestAccept
+    case object RequestReject
+  }
+
+
   class ParentActor extends Actor {
     import ParentActor._
-    import StatelessActor._
+    import ChildActor._
 
     override def receive: Receive = {
       case Init(ref) =>
@@ -45,8 +47,8 @@ object Actors4ChangingBehaviour extends App {
         ref ! Food(VEGETABLE)
         ref ! Food(CHOCOLATE)
         ref ! Ask("lol?")
-      case Accept => println("[parent] good")
-      case Reject => println("[parent] bad")
+      case RequestAccept => println("[parent] good")
+      case RequestReject => println("[parent] bad")
     }
   }
 
@@ -59,7 +61,7 @@ object Actors4ChangingBehaviour extends App {
   }
 
   val system = ActorSystem("actorBehaviour")
-  val statelessActor = system.actorOf(Props[StatelessActor])
+  val statelessActor = system.actorOf(Props[ChildActor])
   val parentActor = system.actorOf(Props[ParentActor])
 
   parentActor ! ParentActor.Init(statelessActor)
