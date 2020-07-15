@@ -2,8 +2,8 @@ package akka.actors
 
 import akka.actor.{Actor, Props}
 
-class BankAccountActor (private val initialBalance: Int) extends Actor {
-  import BankAccountActor._
+class BankAccount(private val initialBalance: Int) extends Actor {
+  import BankAccount._
 
   def withBalance(balance: Int): Receive = {
     case Deposit(amount) if amount < 0 =>
@@ -29,12 +29,12 @@ class BankAccountActor (private val initialBalance: Int) extends Actor {
   override def receive: Receive = withBalance(initialBalance)
 }
 
-object BankAccountActor {
+object BankAccount {
   final case class Deposit(amount: Int)
   final case class Withdraw(amount: Int)
   final case object Statement
   final case class Success(message: String)
   final case class Failure(message: String)
 
-  def props: Props = Props(new BankAccountActor(0))
+  def props: Props = Props(new BankAccount(0))
 }

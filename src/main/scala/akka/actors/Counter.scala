@@ -2,8 +2,8 @@ package akka.actors
 
 import akka.actor.{Actor, Props}
 
-class CounterActor(private val initialCount: Int) extends Actor {
-  import CounterActor._
+class Counter(private val initialCount: Int) extends Actor {
+  import Counter._
 
   def withCount(i: Int): Receive = {
     case Increment => context.become(withCount(i+1))
@@ -14,10 +14,10 @@ class CounterActor(private val initialCount: Int) extends Actor {
   override def receive: Receive = withCount(initialCount)
 }
 
-object CounterActor {
+object Counter {
   final case object Increment
   final case object Decrement
   final case object Show
 
-  def props: Props = Props(new CounterActor(0))
+  def props: Props = Props(new Counter(0))
 }

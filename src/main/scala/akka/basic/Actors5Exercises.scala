@@ -1,30 +1,16 @@
 package akka.basic
 
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import akka.actors.Counter
 import akka.basic.Actors5Exercises.Citizen.Vote
 import akka.basic.Actors5Exercises.VoteAggregator.{AggregateVotes, VoteStatusRequest, VoteStatusResponse}
 
 object Actors5Exercises extends App {
-  object CounterActor {
-    case object Increment
-    case object Decrement
-    case object Print
-  }
-  class CounterActor extends Actor {
-    import CounterActor._
-
-    override def receive: Receive = inc(0)
-
-    def inc(currentVal: Int): Receive = {
-      case Increment => context.become(inc(currentVal+1))
-      case Decrement => context.become(inc(currentVal-1))
-      case Print => println(s"[counter] curent count: $currentVal")
-    }
-  }
 
   object Citizen {
-    case class Vote(candidate: String)
-    def props(name: String) = Props(new Citizen(name))
+    final case class Vote(candidate: String)
+
+    def props(name: String): Props = Props(new Citizen(name))
   }
 
   class Citizen(name: String) extends Actor {
@@ -44,9 +30,9 @@ object Actors5Exercises extends App {
   }
 
   object VoteAggregator {
-    case class AggregateVotes(citizens: Set[ActorRef])
-    case object VoteStatusRequest
-    case class VoteStatusResponse(candidate: Option[String])
+    final case class AggregateVotes(citizens: Set[ActorRef])
+    final case object VoteStatusRequest
+    final case class VoteStatusResponse(candidate: Option[String])
   }
 
   class VoteAggregator extends Actor {
@@ -75,7 +61,6 @@ object Actors5Exercises extends App {
   }
 
   val actorSystem = ActorSystem("actorSystem")
-  val counter = actorSystem.actorOf(Props[CounterActor])
 
   val alice = actorSystem.actorOf(Citizen.props("alice"), "alice")
   val bob = actorSystem.actorOf(Citizen.props("bob"), "bob")

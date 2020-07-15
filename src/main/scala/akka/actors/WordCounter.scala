@@ -2,7 +2,7 @@ package akka.actors
 
 import akka.actor.{Actor, Props}
 
-class WordCountActor(private val number: Int) extends Actor {
+class WordCounter(private val number: Int) extends Actor {
 
   override def receive: Receive = withWordCount(0)
 
@@ -15,6 +15,6 @@ class WordCountActor(private val number: Int) extends Actor {
   }
 }
 
-object WordCountActor {
-  def props(number: Int) = Props(new WordCountActor(number))
+object WordCounter {
+  def props(number: Int) = Props(new WordCounter(number))
 }

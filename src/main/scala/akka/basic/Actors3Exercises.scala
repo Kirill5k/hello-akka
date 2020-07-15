@@ -1,7 +1,7 @@
 package akka.basic
 
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
-import akka.actors.{BankAccountActor, CounterActor}
+import akka.actors.{BankAccount, Counter}
 import akka.basic.Actors3Exercises.AccountHolder.LiveTheLife
 
 object Actors3Exercises extends App {
@@ -10,10 +10,10 @@ object Actors3Exercises extends App {
     import AccountHolder._
     override def receive: Receive = {
       case LiveTheLife(account) =>
-        account ! BankAccountActor.Deposit(100)
-        account ! BankAccountActor.Withdraw(200)
-        account ! BankAccountActor.Withdraw(50)
-        account ! BankAccountActor.Statement
+        account ! BankAccount.Deposit(100)
+        account ! BankAccount.Withdraw(200)
+        account ! BankAccount.Withdraw(50)
+        account ! BankAccount.Statement
       case message => println(message.toString)
     }
   }
@@ -23,15 +23,15 @@ object Actors3Exercises extends App {
   }
 
   val system = ActorSystem("System")
-  val counter = system.actorOf(CounterActor.props, "counter")
-  val bank = system.actorOf(BankAccountActor.props, "bank")
+  val counter = system.actorOf(Counter.props, "counter")
+  val bank = system.actorOf(BankAccount.props, "bank")
   val accountHolder = system.actorOf(Props[AccountHolder], "account")
 
-  counter ! CounterActor.Increment
-  counter ! CounterActor.Increment
-  counter ! CounterActor.Increment
-  counter ! CounterActor.Decrement
-  counter ! CounterActor.Show
+  counter ! Counter.Increment
+  counter ! Counter.Increment
+  counter ! Counter.Increment
+  counter ! Counter.Decrement
+  counter ! Counter.Show
 
   accountHolder !  LiveTheLife(bank)
 }
