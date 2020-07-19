@@ -6,8 +6,8 @@ object Actors6ChildActor extends App {
   val system = ActorSystem("childActorSystem")
 
   object Parent {
-    case class CreateChild(name: String)
-    case class TellChild(message: String)
+    final case class CreateChild(name: String)
+    final case class TellChild(message: String)
   }
 
   class Parent extends Actor {
@@ -29,11 +29,10 @@ object Actors6ChildActor extends App {
     }
   }
 
-  import Parent._
   val parent = system.actorOf(Props[Parent], "parent")
-  parent ! CreateChild("child1")
-  parent ! CreateChild("child2")
-  parent ! TellChild("message for my children")
+  parent ! Parent.CreateChild("child1")
+  parent ! Parent.CreateChild("child2")
+  parent ! Parent.TellChild("message for my children")
 
   val childSelection = system.actorSelection("/user/parent/child1")
   childSelection ! "I found you"
