@@ -24,7 +24,7 @@ object Actors3Exercises extends App {
 
   val system = ActorSystem("System")
   val counter = system.actorOf(Counter.props, "counter")
-  val bank = system.actorOf(BankAccount.props, "bank")
+  val bank = system.actorOf(BankAccount.props(0), "bank")
   val accountHolder = system.actorOf(Props[AccountHolder], "account")
 
   counter ! Counter.Increment

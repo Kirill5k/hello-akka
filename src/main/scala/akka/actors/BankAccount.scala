@@ -6,13 +6,13 @@ class BankAccount(private val initialBalance: Int) extends Actor {
   import BankAccount._
 
   def withBalance(balance: Int): Receive = {
-    case Deposit(amount) if amount < 0 =>
+    case Deposit(amount) if amount <= 0 =>
       sender() ! Failure(s"[bank] invalid deposit amount $amount")
     case Deposit(amount) =>
       val newBalance = balance + amount
       sender() ! Success(s"[bank] successfully deposited $amount. current balance is $newBalance")
       context.become(withBalance(newBalance))
-    case Withdraw(amount) if amount < 0 =>
+    case Withdraw(amount) if amount <= 0 =>
       sender() ! Failure(s"[bank] invalid withdraw amount $amount")
     case Withdraw(amount) =>
       val newBalance = balance - amount
@@ -36,5 +36,6 @@ object BankAccount {
   final case class Success(message: String)
   final case class Failure(message: String)
 
-  def props: Props = Props(new BankAccount(0))
+  def props(initialBalance: Int): Props =
+    Props(new BankAccount(initialBalance))
 }
