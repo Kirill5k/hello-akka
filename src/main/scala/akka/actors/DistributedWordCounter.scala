@@ -25,6 +25,9 @@ class DistributedWordCounter extends Actor with ActorLogging {
       log.info(s"initialising DistributedWordCounter with $n workers")
       val workers = (0 until n).map(i => context.actorOf(Props[WordCountWorker], s"worker-$i")).toList
       context.become(withWorkers(workers, 0, Map()))
+    case Register(children) =>
+      log.info(s"initialising with pre-created workers")
+      context.become(withWorkers(children, 0, Map()))
     case _ =>
       log.warning(s"unable to perform any operations until initialised")
   }
@@ -53,6 +56,7 @@ class DistributedWordCounter extends Actor with ActorLogging {
 
 object DistributedWordCounter {
   final case class Initialise(nChildren: Int)
+  final case class Register(children: List[ActorRef])
   final case class WordCountRequest(text: String)
   final case class WordCountResponse(id: Int)
   final case class WordCountEnquiryRequest(id: Int)
