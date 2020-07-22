@@ -29,7 +29,7 @@ class DistributedWordCounter extends Actor with ActorLogging {
       log.info(s"initialising with pre-created workers")
       context.become(withWorkers(children, 0, Map()))
     case _ =>
-      log.warning(s"unable to perform any operations until initialised")
+      log.warning("unable to perform any operations until initialised")
   }
 
   def withWorkers(workers: List[ActorRef], id: Int, results: Map[Int, Int]): Receive = {

@@ -1,10 +1,27 @@
 package akka.actors
 
-import akka.testkit.TestProbe
+import akka.testkit.{EventFilter, TestProbe}
 
 class DistributedWordCounterSpec extends AkkaSpec("DistributedWordCounterSpec") {
 
   "A DistributedWordCounter actor" should {
+
+
+    "log warning when not initialised" in {
+      EventFilter.warning("unable to perform any operations until initialised", occurrences = 1).intercept {
+        val master = system.actorOf(DistributedWordCounter.props)
+
+        master ! DistributedWordCounter.WordCountRequest("hello, world!")
+      }
+    }
+
+    "initialise with n amount of workers and log message" in {
+      EventFilter.info("initialising DistributedWordCounter with 10 workers", occurrences = 1).intercept {
+        val master = system.actorOf(DistributedWordCounter.props)
+
+        master ! DistributedWordCounter.Initialise(10)
+      }
+    }
 
     "register a worker and send work to it" in {
       val master = system.actorOf(DistributedWordCounter.props)
